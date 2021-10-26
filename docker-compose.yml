@@ -1,0 +1,29 @@
+version: '3.4'
+
+services:
+    mssql-server:
+        container_name: mssql-server
+        image: mcr.microsoft.com/mssql/server:2019-latest
+        restart: always
+        networks:
+            - db_net
+        ports:
+            - "8888:1433"
+        environment:
+            ACCEPT_EULA: "Y"
+            SA_PASSWORD: "Password1!"
+            MSSQL_RPC_PORT: "135"
+            MSSQL_DTC_TCP_PORT: "51000"
+
+    streetpatch.api:
+        image: ${DOCKER_REGISTRY-}streetpatchapi
+        ports:
+            - 8080:443
+        build:
+            context: .
+            dockerfile: StreetPatch.API/Dockerfile
+
+networks:
+    db_net:
+# END
+

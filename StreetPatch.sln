@@ -7,12 +7,14 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Backend", "Backend", "{2F10
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Frontend", "Frontend", "{4576DA86-1674-4DB4-B6E3-A6D7FEF44A14}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StreetPatch.API", "StreetPatch.API\StreetPatch.API.csproj", "{34C20345-7380-47C8-B13C-022EFC4D3A25}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StreetPatch.API", "StreetPatch.API\StreetPatch.API.csproj", "{34C20345-7380-47C8-B13C-022EFC4D3A25}"
 	ProjectSection(ProjectDependencies) = postProject
 		{FF862825-FD70-4B90-8698-8C7C95B2EC6C} = {FF862825-FD70-4B90-8698-8C7C95B2EC6C}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StreetPatch.Data", "StreetPatch.Data\StreetPatch.Data.csproj", "{FF862825-FD70-4B90-8698-8C7C95B2EC6C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StreetPatch.Data", "StreetPatch.Data\StreetPatch.Data.csproj", "{FF862825-FD70-4B90-8698-8C7C95B2EC6C}"
+EndProject
+Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{2F23F9C3-9BD4-4DC5-8629-42C3BE5FABA1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -28,6 +30,10 @@ Global
 		{FF862825-FD70-4B90-8698-8C7C95B2EC6C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FF862825-FD70-4B90-8698-8C7C95B2EC6C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FF862825-FD70-4B90-8698-8C7C95B2EC6C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2F23F9C3-9BD4-4DC5-8629-42C3BE5FABA1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2F23F9C3-9BD4-4DC5-8629-42C3BE5FABA1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2F23F9C3-9BD4-4DC5-8629-42C3BE5FABA1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2F23F9C3-9BD4-4DC5-8629-42C3BE5FABA1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -35,6 +41,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{34C20345-7380-47C8-B13C-022EFC4D3A25} = {2F1072A7-56BD-4A43-ACFA-2360C9B9BBC2}
 		{FF862825-FD70-4B90-8698-8C7C95B2EC6C} = {2F1072A7-56BD-4A43-ACFA-2360C9B9BBC2}
+		{2F23F9C3-9BD4-4DC5-8629-42C3BE5FABA1} = {2F1072A7-56BD-4A43-ACFA-2360C9B9BBC2}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {540A8772-92A4-48AC-8594-7D99EF43FA6D}
