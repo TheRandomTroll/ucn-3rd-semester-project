@@ -10,9 +10,7 @@ In order to set up the project locally, the following steps must be taken:
 2. Navigate via Terminal/CMD/Powershell to the directory where you cloned the project.
 3. Run the following command: `docker-compose up -d`
 4. That should be everything set up. The images run on the following ports:
-    - SQL Server (MSSQL): 1433
+    - SQL Server (MSSQL): 8888
     - API (via HTTPS): 8080
-    - Front-end client - Web: **TBD**
-
 ## License
 The content of this site is licensed under the [MIT](https://choosealicense.com/licenses/mit/) license.
