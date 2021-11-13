@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Microsoft.EntityFrameworkCore;
 
 namespace StreetPatch.Data.Entities.Base
 {
-    [ComplexType]
+    [Owned]
     public class Coordinates
     {
         public double Latitude { get; set; }

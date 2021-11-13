@@ -1,4 +1,6 @@
-﻿using StreetPatch.Data.Entities.Base;
+﻿using System;
+using System.Collections.Generic;
+using StreetPatch.Data.Entities.Base;
 using StreetPatch.Data.Entities.Enums;
 
 namespace StreetPatch.Data.Entities
@@ -10,6 +12,9 @@ namespace StreetPatch.Data.Entities
         public Coordinates Coordinates { get; set; }
         public ReportType Type { get; set; }
         public ReportStatus Status { get; set; }
-        public ApplicationUser Creator { get; set; }
+        public Guid CreatorId { get; set; }
+        public virtual ApplicationUser Creator { get; set; }    
+        public virtual List<Comment> Comments { get; set; }
+        public virtual List<ApplicationUser> LikedBy { get; set; }
     }
 }

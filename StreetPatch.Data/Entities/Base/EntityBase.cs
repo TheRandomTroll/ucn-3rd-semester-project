@@ -7,6 +7,7 @@ namespace StreetPatch.Data.Entities.Base
     public class EntityBase
     {
         [Key, Column(Order = 0)]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Guid Id { get; set; }
 
         public DateTime CreatedOn { get; set; } = DateTime.UtcNow;
