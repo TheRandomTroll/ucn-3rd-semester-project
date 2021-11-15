@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using StreetPatch.Data.Entities;
+using StreetPatch.Data.Entities.Base;
 
 namespace StreetPatch.Data
 {
@@ -16,6 +17,24 @@ namespace StreetPatch.Data
             : base(options)
         {
             
+        }
+
+        public virtual DbSet<Report> Reports { get; set; }
+        public virtual DbSet<Comment> Comments { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            builder.Entity<Report>()
+                .OwnsOne(typeof(Coordinates), "Coordinates");
+            builder.Entity<Report>()
+                .Property(c => c.Type)
+                .HasConversion<string>();
+
+            builder.Entity<Report>()
+                .Property(c => c.Status)
+                .HasConversion<string>();
+
+            base.OnModelCreating(builder);
         }
     }
 }

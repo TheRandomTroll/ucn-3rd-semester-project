@@ -26,7 +26,9 @@ namespace StreetPatch.API
             services.AddControllers();
 
             services.AddDbContext<StreetPatchDbContext>(
-                options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+                options => options
+                    .UseLazyLoadingProxies()
+                    .UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             
             services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<StreetPatchDbContext>()

@@ -1,0 +1,5 @@
+C:\Users\teost\Desktop\projekt za školu\ucn-3rd-semester-project-enhancement-database-and-entity-creation\StreetPatch.Data\obj\Debug\net5.0\StreetPatch.Data.csproj.AssemblyReference.cache
+C:\Users\teost\Desktop\projekt za školu\ucn-3rd-semester-project-enhancement-database-and-entity-creation\StreetPatch.Data\obj\Debug\net5.0\StreetPatch.Data.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\teost\Desktop\projekt za školu\ucn-3rd-semester-project-enhancement-database-and-entity-creation\StreetPatch.Data\obj\Debug\net5.0\StreetPatch.Data.AssemblyInfoInputs.cache
+C:\Users\teost\Desktop\projekt za školu\ucn-3rd-semester-project-enhancement-database-and-entity-creation\StreetPatch.Data\obj\Debug\net5.0\StreetPatch.Data.AssemblyInfo.cs
+C:\Users\teost\Desktop\projekt za školu\ucn-3rd-semester-project-enhancement-database-and-entity-creation\StreetPatch.Data\obj\Debug\net5.0\StreetPatch.Data.csproj.CoreCompileInputs.cache

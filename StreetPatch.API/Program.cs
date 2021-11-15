@@ -2,7 +2,6 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using DB;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,11 +14,6 @@ namespace StreetPatch.API
         public static void Main(string[] args)
         {
             CreateHostBuilder(args).Build().Run();
-            using (var db = new DatabaseContext())
-            {
-                var users = db.Users;
-
-            }
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
