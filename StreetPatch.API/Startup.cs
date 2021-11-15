@@ -30,8 +30,7 @@ namespace StreetPatch.API
                 options => options
                     .UseLazyLoadingProxies()
                     .UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
-
-
+          
             services.AddIdentity<ApplicationUser, IdentityRole<Guid>>(
                     identity =>
                     {
