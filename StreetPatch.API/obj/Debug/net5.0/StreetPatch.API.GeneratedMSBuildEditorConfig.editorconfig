@@ -7,4 +7,4 @@ build_property.PublishSingleFile =
 build_property.IncludeAllContentForSelfExtract = 
 build_property._SupportedPlatformList = Android,iOS,Linux,macOS,Windows
 build_property.RootNamespace = StreetPatch.API
-build_property.ProjectDir = C:\Users\teost\Desktop\projekt za školu\ucn-3rd-semester-project-enhancement-database-and-entity-creation\StreetPatch.API\
+build_property.ProjectDir = C:\Users\teost\Desktop\projekt za školu\ucn-3rd-semester-project\StreetPatch.API\

@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "Vg+OvAGyoeYazkurWv1RKHEb9kZ3fYtq00n1H0LZHj5V9akPdbvM471CjuW14Saa9eMrfcXPChRxGOYHWS9I2Q==",
+  "dgSpecHash": "tUDCtK0c24Hysr2OTNHhn8Xa+viksdZ0hkuq/VT4ODRe+H3zAycsLuJcLSwvwR+E31QjAdrqNDfkSwNPbH4NUw==",
   "success": true,
-  "projectFilePath": "C:\\Users\\teost\\Desktop\\projekt za školu\\ucn-3rd-semester-project-enhancement-database-and-entity-creation\\StreetPatch.Data\\StreetPatch.Data.csproj",
+  "projectFilePath": "C:\\Users\\teost\\Desktop\\projekt za školu\\ucn-3rd-semester-project\\StreetPatch.Data\\StreetPatch.Data.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\teost\\.nuget\\packages\\automapper\\10.1.1\\automapper.10.1.1.nupkg.sha512",
     "C:\\Users\\teost\\.nuget\\packages\\baseline\\3.2.1\\baseline.3.2.1.nupkg.sha512",

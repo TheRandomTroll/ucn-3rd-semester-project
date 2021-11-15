@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "B6iJC1/TqXb62nkd7f4fK7D3Mx/yHhm+SHgxZHATiALIHGrk+inkmeescxyhNc4PaiVBl4OtO6xCqaKoZ7gmcg==",
+  "dgSpecHash": "UT907Bv/vzsxTUX8iwVsC2c2KGR07HKHYmvn3Xvxch6W3bWSI3aWnJCo4TPqVzOJ2zNiA5wcSbpU6U1y8/suPw==",
   "success": true,
-  "projectFilePath": "C:\\Users\\teost\\Desktop\\projekt za školu\\ucn-3rd-semester-project-enhancement-database-and-entity-creation\\StreetPatch.API\\StreetPatch.API.csproj",
+  "projectFilePath": "C:\\Users\\teost\\Desktop\\projekt za školu\\ucn-3rd-semester-project\\StreetPatch.API\\StreetPatch.API.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\teost\\.nuget\\packages\\automapper\\10.1.1\\automapper.10.1.1.nupkg.sha512",
     "C:\\Users\\teost\\.nuget\\packages\\automapper.extensions.microsoft.dependencyinjection\\7.0.0\\automapper.extensions.microsoft.dependencyinjection.7.0.0.nupkg.sha512",

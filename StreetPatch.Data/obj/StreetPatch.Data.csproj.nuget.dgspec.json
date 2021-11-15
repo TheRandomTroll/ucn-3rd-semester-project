@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\teost\\Desktop\\projekt za školu\\ucn-3rd-semester-project-enhancement-database-and-entity-creation\\StreetPatch.Data\\StreetPatch.Data.csproj": {}
+    "C:\\Users\\teost\\Desktop\\projekt za školu\\ucn-3rd-semester-project\\StreetPatch.Data\\StreetPatch.Data.csproj": {}
   },
   "projects": {
-    "C:\\Users\\teost\\Desktop\\projekt za školu\\ucn-3rd-semester-project-enhancement-database-and-entity-creation\\StreetPatch.Data\\StreetPatch.Data.csproj": {
+    "C:\\Users\\teost\\Desktop\\projekt za školu\\ucn-3rd-semester-project\\StreetPatch.Data\\StreetPatch.Data.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\teost\\Desktop\\projekt za školu\\ucn-3rd-semester-project-enhancement-database-and-entity-creation\\StreetPatch.Data\\StreetPatch.Data.csproj",
+        "projectUniqueName": "C:\\Users\\teost\\Desktop\\projekt za školu\\ucn-3rd-semester-project\\StreetPatch.Data\\StreetPatch.Data.csproj",
         "projectName": "StreetPatch.Data",
-        "projectPath": "C:\\Users\\teost\\Desktop\\projekt za školu\\ucn-3rd-semester-project-enhancement-database-and-entity-creation\\StreetPatch.Data\\StreetPatch.Data.csproj",
+        "projectPath": "C:\\Users\\teost\\Desktop\\projekt za školu\\ucn-3rd-semester-project\\StreetPatch.Data\\StreetPatch.Data.csproj",
         "packagesPath": "C:\\Users\\teost\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\teost\\Desktop\\projekt za školu\\ucn-3rd-semester-project-enhancement-database-and-entity-creation\\StreetPatch.Data\\obj\\",
+        "outputPath": "C:\\Users\\teost\\Desktop\\projekt za školu\\ucn-3rd-semester-project\\StreetPatch.Data\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\teost\\AppData\\Roaming\\NuGet\\NuGet.Config",

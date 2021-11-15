@@ -4,3 +4,9 @@ C:\Users\teost\Desktop\projekt za školu\ucn-3rd-semester-project-enhancement-da
 C:\Users\teost\Desktop\projekt za školu\ucn-3rd-semester-project-enhancement-database-and-entity-creation\StreetPatch.API\obj\Debug\net5.0\StreetPatch.API.AssemblyInfo.cs
 C:\Users\teost\Desktop\projekt za školu\ucn-3rd-semester-project-enhancement-database-and-entity-creation\StreetPatch.API\obj\Debug\net5.0\StreetPatch.API.csproj.CoreCompileInputs.cache
 C:\Users\teost\Desktop\projekt za školu\ucn-3rd-semester-project-enhancement-database-and-entity-creation\StreetPatch.API\obj\Debug\net5.0\StreetPatch.API.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\teost\Desktop\projekt za školu\ucn-3rd-semester-project\StreetPatch.API\obj\Debug\net5.0\StreetPatch.API.csproj.AssemblyReference.cache
+C:\Users\teost\Desktop\projekt za školu\ucn-3rd-semester-project\StreetPatch.API\obj\Debug\net5.0\StreetPatch.API.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\teost\Desktop\projekt za školu\ucn-3rd-semester-project\StreetPatch.API\obj\Debug\net5.0\StreetPatch.API.AssemblyInfoInputs.cache
+C:\Users\teost\Desktop\projekt za školu\ucn-3rd-semester-project\StreetPatch.API\obj\Debug\net5.0\StreetPatch.API.AssemblyInfo.cs
+C:\Users\teost\Desktop\projekt za školu\ucn-3rd-semester-project\StreetPatch.API\obj\Debug\net5.0\StreetPatch.API.csproj.CoreCompileInputs.cache
+C:\Users\teost\Desktop\projekt za školu\ucn-3rd-semester-project\StreetPatch.API\obj\Debug\net5.0\StreetPatch.API.MvcApplicationPartsAssemblyInfo.cache
