@@ -1,3 +1,4 @@
+using System;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -29,8 +30,14 @@ namespace StreetPatch.API
                 options => options
                     .UseLazyLoadingProxies()
                     .UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
-            
-            services.AddIdentity<ApplicationUser, IdentityRole>()
+
+
+            services.AddIdentity<ApplicationUser, IdentityRole<Guid>>(
+                    identity =>
+                    {
+                        identity.User.RequireUniqueEmail = true;
+                        identity.Password.RequiredLength = 8;
+                    })
                 .AddEntityFrameworkStores<StreetPatchDbContext>()
                 .AddDefaultTokenProviders();
 
