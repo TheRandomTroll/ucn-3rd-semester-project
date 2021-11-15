@@ -11,7 +11,7 @@ using StreetPatch.Data.Entities.Base;
 
 namespace StreetPatch.Data
 {
-    public class StreetPatchDbContext : IdentityDbContext<ApplicationUser, IdentityRole, string>
+    public class StreetPatchDbContext : IdentityDbContext<ApplicationUser, IdentityRole<Guid>, Guid>
     {
         public StreetPatchDbContext(DbContextOptions<StreetPatchDbContext> options)
             : base(options)
