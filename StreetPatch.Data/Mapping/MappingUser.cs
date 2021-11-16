@@ -8,7 +8,7 @@ using System.Linq;
 using System.Threading.Tasks;
 
 
-namespace StreetPatch.API.Mapping
+namespace StreetPatch.Data.Mapping
 {
     public class MappingUser : Profile
     {
