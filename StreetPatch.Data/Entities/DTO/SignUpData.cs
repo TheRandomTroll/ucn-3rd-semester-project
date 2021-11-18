@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace StreetPatch.Data.Entities
+namespace StreetPatch.Data.Entities.DTO
 {
-    public class SignUpData
+    public class SignUpDto
     {
         public string Email { get; set; }
 
