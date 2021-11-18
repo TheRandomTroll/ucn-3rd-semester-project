@@ -9,6 +9,8 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using StreetPatch.Data;
 using StreetPatch.Data.Entities;
+using AutoMapper;
+using StreetPatch.Data.Mapping;
 
 namespace StreetPatch.API
 {
@@ -44,6 +46,16 @@ namespace StreetPatch.API
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "StreetPatch.API", Version = "v1" });
             });
+
+            var mapperConfig = new MapperConfiguration(mc =>
+            {
+                mc.AddProfile(new MappingUser());
+            });
+
+            IMapper mapper = mapperConfig.CreateMapper();
+            services.AddSingleton(mapper);
+
+            services.AddMvc();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
