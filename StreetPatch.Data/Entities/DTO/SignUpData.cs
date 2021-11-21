@@ -3,14 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Identity;
 
-namespace StreetPatch.Data.Entities
+namespace StreetPatch.Data.Entities.DTO
 {
-    public class ApplicationUser : IdentityUser<Guid>
+    public class SignUpDto
     {
+        public string Email { get; set; }
+
         public string FirstName { get; set; }
+
         public string LastName { get; set; }
 
+        public string Password { get; set; }
     }
 }
