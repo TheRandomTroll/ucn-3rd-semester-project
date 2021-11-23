@@ -1,16 +1,25 @@
 using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Reflection;
+using System.Text;
+using AutoMapper;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
+using StreetPatch.API.Services;
+using StreetPatch.API.Services.Interfaces;
 using StreetPatch.Data;
 using StreetPatch.Data.Entities;
-using AutoMapper;
 using StreetPatch.Data.Mapping;
+using StreetPatch.Data.Repositories;
 
 namespace StreetPatch.API
 {
@@ -32,7 +41,7 @@ namespace StreetPatch.API
                 options => options
                     .UseLazyLoadingProxies()
                     .UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
-          
+
             services.AddIdentity<ApplicationUser, IdentityRole<Guid>>(
                     identity =>
                     {
@@ -42,9 +51,74 @@ namespace StreetPatch.API
                 .AddEntityFrameworkStores<StreetPatchDbContext>()
                 .AddDefaultTokenProviders();
 
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
+            {
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuer = true,
+                    ValidateAudience = true,
+                    ValidateLifetime = true,
+                    ValidateIssuerSigningKey = true,
+                    ValidIssuer = Configuration["Jwt:Issuer"],
+                    ValidAudience = Configuration["Jwt:Issuer"],
+                    IssuerSigningKey = new
+                        SymmetricSecurityKey
+                        (Encoding.UTF8.GetBytes
+                            (Configuration["Jwt:Key"]))
+                };
+            });
+
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "StreetPatch.API", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo
+                {
+                    Version = "v1",
+                    Title = "StreetPatch API",
+                    Description = "The API of the 3rd semester project of Group D @ UCN - Computer Science, dmaj0920",
+                    Contact = new OpenApiContact
+                    {
+                        Name = "GitHub link",
+                        Url = new Uri("https://github.com/TheRandomTroll/ucn-3rd-semester-project")
+                    },
+                    License = new OpenApiLicense
+                    {
+                        Name = "MIT License",
+                        Url = new Uri("https://github.com/TheRandomTroll/ucn-3rd-semester-project/blob/master/LICENSE")
+                    }
+                });
+
+                c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+                {
+                    Description = @"JWT Authorization header using the Bearer scheme. \r\n\r\n 
+                      Enter 'Bearer' [space] and then your token in the text input below.
+                      \r\n\r\nExample: 'Bearer 12345abcdef'",
+                    Name = "Authorization",
+                    In = ParameterLocation.Header,
+                    Type = SecuritySchemeType.ApiKey,
+                    Scheme = "Bearer"
+                });
+
+                c.AddSecurityRequirement(new OpenApiSecurityRequirement
+                {
+                    {
+                        new OpenApiSecurityScheme
+                        {
+                            Reference = new OpenApiReference
+                            {
+                                Type = ReferenceType.SecurityScheme,
+                                Id = "Bearer"
+                            },
+                            Scheme = "oauth2",
+                            Name = "Bearer",
+                            In = ParameterLocation.Header,
+
+                        },
+                        new List<string>()
+                    }
+                });
+
+                var xmlFilename = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                c.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFilename));
             });
 
             var mapperConfig = new MapperConfiguration(mc =>
@@ -52,7 +126,9 @@ namespace StreetPatch.API
                 mc.AddProfile(new MappingUser());
             });
 
-            IMapper mapper = mapperConfig.CreateMapper();
+            services.AddTransient<UsersRepository>();
+            services.AddTransient<ITokenService, TokenService>();
+            var mapper = mapperConfig.CreateMapper();
             services.AddSingleton(mapper);
 
             services.AddMvc();
