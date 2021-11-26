@@ -20,6 +20,6 @@ jobs:
     - name: Restore dependencies
       run: dotnet restore "StreetPatch.API/StreetPatch.API.csproj"
     - name: Build
-      run: dotnet build --no-restore
+      run: dotnet build "StreetPatch.API/StreetPatch.API.csproj" --no-restore
     - name: Test
       run: dotnet test --no-build --verbosity normal
