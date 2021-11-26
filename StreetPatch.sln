@@ -16,7 +16,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StreetPatch.Data", "StreetP
 EndProject
 Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{2F23F9C3-9BD4-4DC5-8629-42C3BE5FABA1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StreetPatch.Tests", "..\StreetPatch.Tests\StreetPatch.Tests.csproj", "{1FA8EBB9-31CE-494A-88D0-94A5D8216A22}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StreetPatch.Tests", "StreetPatch.Tests\StreetPatch.Tests.csproj", "{1FA8EBB9-31CE-494A-88D0-94A5D8216A22}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -22,8 +22,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\3rd-semester-project\StreetPatch.API\StreetPatch.API.csproj" />
-    <ProjectReference Include="..\3rd-semester-project\StreetPatch.Data\StreetPatch.Data.csproj" />
+    <ProjectReference Include="..\StreetPatch.API\StreetPatch.API.csproj" />
+    <ProjectReference Include="..\StreetPatch.Data\StreetPatch.Data.csproj" />
   </ItemGroup>
 
 </Project>
