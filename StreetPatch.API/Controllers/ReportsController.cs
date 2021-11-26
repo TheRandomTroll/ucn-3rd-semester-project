@@ -48,7 +48,7 @@ namespace StreetPatch.API.Controllers
             var report = mapper.Map<CreateReportDto, Report>(createReportDto);
             report.Status = ReportStatus.New;
 
-            var userEmail = User.Claims.FirstOrDefault(c => c.Type == "sub")?.Value;
+            var userEmail = this.usersRepository.GetUsernameFromToken(User.Claims);
             report.Creator = await this.usersRepository.GetByUsernameAsync(userEmail);
 
             var result = await this.reportRepository.AddAsync(report);
