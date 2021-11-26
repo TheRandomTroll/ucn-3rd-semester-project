@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
@@ -20,6 +21,11 @@ namespace StreetPatch.Data.Repositories
         public async Task<ApplicationUser> GetByUsernameAsync(string username)
         {   
             return await this.userManager.FindByEmailAsync(username);
+        }
+
+        public string GetUsernameFromToken(IEnumerable<Claim> userClaims)
+        {
+            return userClaims.FirstOrDefault(c => c.Type == "sub")?.Value;
         }
     }
 }
