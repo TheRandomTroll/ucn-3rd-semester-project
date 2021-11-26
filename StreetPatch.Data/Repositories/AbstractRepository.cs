@@ -22,8 +22,8 @@ namespace StreetPatch.Data.Repositories
         public async Task<TEntity> AddAsync(TEntity entity)
         {
             context.Set<TEntity>().Add(entity);
-            var rows = await context.SaveChangesAsync();
-            return rows > 0 ? entity : default;
+            await context.SaveChangesAsync();
+            return entity;
         }
 
         public async Task<TEntity> DeleteAsync(Guid id)
