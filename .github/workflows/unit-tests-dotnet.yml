@@ -22,4 +22,4 @@ jobs:
     - name: Build
       run: dotnet build "StreetPatch.API/StreetPatch.API.csproj" --no-restore
     - name: Test
-      run: dotnet test --no-build --verbosity normal
+      run: dotnet test "StreetPatch.Tests/StreetPatch.Tests.csproj" --no-build --verbosity normal
