@@ -66,6 +66,7 @@ namespace StreetPatch.API
                         (Encoding.UTF8.GetBytes
                             (Configuration["Jwt:Key"]))
                 };
+                options.SaveToken = true;
             });
 
             services.AddSwaggerGen(c =>
@@ -124,9 +125,11 @@ namespace StreetPatch.API
             var mapperConfig = new MapperConfiguration(mc =>
             {
                 mc.AddProfile(new MappingUser());
+                mc.AddProfile(new ReportMapping());
             });
 
             services.AddTransient<UsersRepository>();
+            services.AddTransient<ReportRepository>();
             services.AddTransient<ITokenService, TokenService>();
             var mapper = mapperConfig.CreateMapper();
             services.AddSingleton(mapper);
