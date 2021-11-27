@@ -11,7 +11,7 @@ using StreetPatch.Data.Repositories;
 
 namespace StreetPatch.API.Controllers
 {
-    [Authorize]
+    [Authorize(AuthenticationSchemes = "Bearer")]
     [Route("api/[controller]")]
     [ApiController]
     public class ReportsController : ControllerBase
@@ -39,7 +39,7 @@ namespace StreetPatch.API.Controllers
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> CreateAsync(CreateReportDto createReportDto)
+        public async Task<IActionResult> CreateAsync([FromBody] CreateReportDto createReportDto)
         {
             if (!ModelState.IsValid)
             {
