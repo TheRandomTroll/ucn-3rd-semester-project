@@ -31,8 +31,8 @@ namespace StreetPatch.API.Controllers
         /// Creates a report, based on a couple of input parameters
         /// </summary>
         /// <param name="createReportDto">The input</param>
-        /// <returns>On success</returns>
-        /// <response code="201">Returns the newly created report.</response>
+        /// <returns>A code 2XX on success, and 4XX or 5XX on errors.</returns>
+        /// <response code="201">Returns the Id of the newly created report.</response>
         /// <response code="400">Returned when there is a problem with the input fields (fields missing).</response>
         /// <response code="500">Returned when there is a problem with persisting the entry in the database.</response>
         [HttpPost]
@@ -53,7 +53,39 @@ namespace StreetPatch.API.Controllers
 
             var result = await this.reportRepository.AddAsync(report);
 
-            return result == default ? StatusCode(500, "Could not create report.") : Created("Create", report);
+            return result == default ? StatusCode(500, "Could not create report.") : Created("Create", new { Id = result.Id });
+        }
+
+
+        /// <summary>
+        /// Updates a report, based on its id and the new information
+        /// </summary>
+        /// <param name="updateReportDto">200</param>
+        /// <returns>A code 2XX on success, and 4XX or 5XX on errors.</returns>
+        /// <response code="200">Returns the newly created report.</response>
+        /// <response code="400">Returned when there is a problem with the input fields (fields missing).</response>
+        /// <response code="404">Returned when there is no report with the provided ID..</response>
+        [HttpPut]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> UpdateAsync([FromBody] UpdateReportDto updateReportDto)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var report = mapper.Map<UpdateReportDto, Report>(updateReportDto);
+
+            var result = await this.reportRepository.UpdateAsync(report);
+
+            if (result == default)
+            {
+                return NotFound($"There is no entry with id {updateReportDto.Id}");
+            }
+
+            return Ok(result);
         }
     }
 }

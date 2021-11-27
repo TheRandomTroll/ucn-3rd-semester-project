@@ -55,6 +55,7 @@ namespace StreetPatch.API
             {
                 options.TokenValidationParameters = new TokenValidationParameters
                 {
+                    NameClaimType = "name",
                     ValidateIssuer = true,
                     ValidateAudience = true,
                     ValidateLifetime = true,
