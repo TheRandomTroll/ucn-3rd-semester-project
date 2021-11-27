@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
@@ -61,10 +63,10 @@ namespace StreetPatch.API.Controllers
         /// Updates a report, based on its id and the new information
         /// </summary>
         /// <param name="updateReportDto">200</param>
-        /// <returns>A code 2XX on success, and 4XX or 5XX on errors.</returns>
+        /// <returns>A code 2XX on success, and 4XX on errors.</returns>
         /// <response code="200">Returns the newly created report.</response>
         /// <response code="400">Returned when there is a problem with the input fields (fields missing).</response>
-        /// <response code="404">Returned when there is no report with the provided ID..</response>
+        /// <response code="404">Returned when there is no report with the provided ID.</response>
         [HttpPut]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -86,6 +88,30 @@ namespace StreetPatch.API.Controllers
             }
 
             return Ok(result);
+        }
+
+        /// <summary>
+        /// Deletes a report, based on a GUID.
+        /// </summary>
+        /// <param name="guid">The GUID of a report which will be deleted</param>
+        /// <returns>A code 2XX on success, and 4XX on errors.</returns>
+        /// <response code="204">Returned upon successful deletion.</response>
+        /// <response code="400">Returned when there is a problem with the input fields (GUID missing).</response>
+        /// <response code="404">Returned when there is no report with the provided ID.</response>
+        [HttpDelete]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> DeleteAsync([Required] Guid guid)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var result = await this.reportRepository.DeleteAsync(guid);
+
+            return result == default ? NoContent() : NotFound($"Could not find a report with id: {guid}");
         }
     }
 }
