@@ -10,7 +10,6 @@ using StreetPatch.API.Controllers;
 using StreetPatch.Data;
 using StreetPatch.Data.Entities;
 using StreetPatch.Data.Entities.DTO;
-using StreetPatch.Data.Entities.Enums;
 using StreetPatch.Data.Mapping;
 using StreetPatch.Data.Repositories;
 using StreetPatch.Tests.MockObjects;

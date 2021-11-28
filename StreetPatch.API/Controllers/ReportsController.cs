@@ -111,7 +111,7 @@ namespace StreetPatch.API.Controllers
 
             var result = await this.reportRepository.DeleteAsync(guid);
 
-            return result == default ? NoContent() : NotFound($"Could not find a report with id: {guid}");
+            return result != default ? NoContent() : NotFound($"Could not find a report with id: {guid}");
         }
     }
 }

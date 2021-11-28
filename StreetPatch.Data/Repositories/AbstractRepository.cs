@@ -52,10 +52,17 @@ namespace StreetPatch.Data.Repositories
 
         public async Task<TEntity> UpdateAsync(TEntity entity)
         {
-            entity.UpdatedOn = DateTime.Now;
-            context.Entry(entity).State = EntityState.Modified;
-            var rows = await context.SaveChangesAsync();
-            return rows > 0 ? entity : default;
+            try
+            {
+                entity.UpdatedOn = DateTime.Now;
+                context.Entry(entity).State = EntityState.Modified;
+                var rows = await context.SaveChangesAsync();
+                return rows > 0 ? entity : default;
+            }
+            catch (Exception)
+            {
+                return default;
+            }
         }
 
     }
