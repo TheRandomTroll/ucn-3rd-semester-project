@@ -5,7 +5,7 @@ using StreetPatch.Data.Entities.Enums;
 
 namespace StreetPatch.Data.Entities
 {
-    public class Report : EntityBase
+    public class Report : EntityBase, ISoftDeletable
     {
         public string Title { get; set; }
         public string Description { get; set; }
@@ -16,5 +16,6 @@ namespace StreetPatch.Data.Entities
         public virtual ApplicationUser Creator { get; set; }    
         public virtual List<Comment> Comments { get; set; }
         public virtual List<ApplicationUser> LikedBy { get; set; }
+        public DateTime? DeletedAt { get; set; }
     }
 }
