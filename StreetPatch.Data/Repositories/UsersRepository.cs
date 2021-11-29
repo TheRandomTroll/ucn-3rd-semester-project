@@ -25,7 +25,7 @@ namespace StreetPatch.Data.Repositories
 
         public string GetUsernameFromToken(IEnumerable<Claim> userClaims)
         {
-            return userClaims.FirstOrDefault(c => c.Type == "sub")?.Value;
+            return userClaims.First(claim => claim.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name").Value;
         }
     }
 }

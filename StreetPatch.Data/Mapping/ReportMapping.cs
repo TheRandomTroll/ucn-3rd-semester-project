@@ -15,11 +15,19 @@ namespace StreetPatch.Data.Mapping
     {
         public ReportMapping()
         {
+            CreateMap<UpdateReportDto, Report>()
+                .ForMember(x => x.Type,
+                    x => x.MapFrom(y => EnumMapper<ReportType>.MapFromString(y.ReportType)))
+                .ForMember(x => x.Status,
+                    x => x.MapFrom(y => EnumMapper<ReportStatus>.MapFromString(y.ReportStatus)));
+
             CreateMap<CreateReportDto, Report>()
                 .ForMember(x => x.Type,
                     x => x.MapFrom(y => EnumMapper<ReportType>.MapFromString(y.ReportType)))
                 .ForMember(x => x.Coordinates,
                     x => x.MapFrom(y => new Coordinates {Latitude = y.Latitude, Longitude = y.Longitude}));
+
+            CreateMap<Report, CreateReportOutputDto>();
         }
 
         private static class EnumMapper<T> where T : Enum
