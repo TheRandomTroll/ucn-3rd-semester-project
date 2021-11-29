@@ -30,16 +30,53 @@ namespace StreetPatch.API.Controllers
         }
 
         /// <summary>
+        /// Gets all reports from the database.
+        /// </summary>
+        /// <returns>A code 2XX on success, and 4XX on errors.</returns>
+        /// <response code="200">Returned when the result is successful.</response>
+        /// <response code="401">Returned when no JWT authentication token is provided.</response>
+        [HttpGet]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        public async Task<IActionResult> GetAllAsync()
+        {
+            return Ok(await this.reportRepository.GetAllAsync());
+        }
+
+        /// <summary>
+        /// Gets a report from the database, based on a provided GUID.
+        /// </summary>
+        /// <param name="guid">The GUID of the report</param>
+        /// <returns>A code 2XX on success, and 4XX on errors.</returns>
+        /// <response code="200">Returned when the result is successful.</response>
+        /// <response code="400">Returned when no GUID was provided.</response>
+        /// <response code="401">Returned when no JWT authentication token is provided.</response>
+        /// <response code="404">Returned when no report with the provided GUID is found.</response>
+        [HttpGet]
+        [Route("{guid:guid}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> GetByIdAsync([Required] Guid guid)
+        {
+            var result = await this.reportRepository.GetAsync(guid);
+            return result == null ? NotFound($"Could not find a report with id {guid}") : Ok(result);
+        }
+
+        /// <summary>
         /// Creates a report, based on a couple of input parameters
         /// </summary>
         /// <param name="createReportDto">The input</param>
         /// <returns>A code 2XX on success, and 4XX or 5XX on errors.</returns>
         /// <response code="201">Returns the Id of the newly created report.</response>
         /// <response code="400">Returned when there is a problem with the input fields (fields missing).</response>
+        /// <response code="401">Returned when no JWT authentication token is provided.</response>
         /// <response code="500">Returned when there is a problem with persisting the entry in the database.</response>
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> CreateAsync([FromBody] CreateReportDto createReportDto)
         {
@@ -66,10 +103,12 @@ namespace StreetPatch.API.Controllers
         /// <returns>A code 2XX on success, and 4XX on errors.</returns>
         /// <response code="200">Returns the newly created report.</response>
         /// <response code="400">Returned when there is a problem with the input fields (fields missing).</response>
+        /// <response code="401">Returned when no JWT authentication token is provided.</response>
         /// <response code="404">Returned when there is no report with the provided ID.</response>
         [HttpPut]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> UpdateAsync([FromBody] UpdateReportDto updateReportDto)
         {
@@ -98,10 +137,12 @@ namespace StreetPatch.API.Controllers
         /// <returns>A code 2XX on success, and 4XX on errors.</returns>
         /// <response code="204">Returned upon successful deletion.</response>
         /// <response code="400">Returned when there is a problem with the input fields (GUID missing).</response>
+        /// <response code="401">Returned when no JWT authentication token is provided.</response>
         /// <response code="404">Returned when there is no report with the provided ID.</response>
         [HttpDelete]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> DeleteAsync([Required] Guid guid, bool isSoft = false)
         {
