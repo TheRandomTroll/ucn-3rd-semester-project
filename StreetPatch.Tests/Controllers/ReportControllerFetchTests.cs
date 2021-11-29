@@ -1,6 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Security.Claims;
+using System.Text;
 using System.Threading;
+using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -18,10 +22,10 @@ using Xunit;
 
 namespace StreetPatch.Tests.Controllers
 {
-    public class ReportControllerDeleteTests
+    public class ReportControllerFetchTests
     {
         [Fact]
-        public async void Delete_ReturnsOk_WhenEntryIsDeleted()
+        public async void Fetch_ReturnsOk_WhenEverythingIsOkayWithInput()
         {
             // Arrange 
 
@@ -36,13 +40,51 @@ namespace StreetPatch.Tests.Controllers
                 .UseInMemoryDatabase(databaseName: "testdb")
                 .Options;
 
-            var mockSet = new Mock<DbSet<Report>>();
+            var context = new StreetPatchDbContext(options);
 
-            var mockContext = new Mock<StreetPatchDbContext>();
+            var reportsRepository = new ReportRepository(context);
 
-            EntityEntry<Report> entry = null;
+            var user = new ClaimsPrincipal(new ClaimsIdentity(new Claim[] {
+                new(ClaimTypes.Name, "")
+            }, "TestAuthentication"));
 
-            mockContext.Setup(m => m.Reports).Returns(mockSet.Object);
+            var mapperConfig = new MapperConfiguration(cfg => cfg.AddProfile<ReportMapping>());
+
+            var mapper = mapperConfig.CreateMapper();
+            var controller = new ReportsController(reportsRepository, usersRepository,
+                mapper)
+            {
+                ControllerContext =
+                {
+                    HttpContext = new DefaultHttpContext { User = user }
+                }
+            };
+
+            // Act
+            var result = await controller.GetAllAsync();
+
+            // Assert
+            Assert.NotNull(result);
+            Assert.IsType<OkObjectResult>(result);
+        }
+
+        [Fact]
+        public async void FetchById_ReturnsOk_WhenEverythingIsOkayWithInput()
+        {
+            // Arrange 
+
+            var mockUserManager = new Mock<MockUserManager>();
+            mockUserManager.Setup(x => x.FindByEmailAsync(It.IsAny<string>()))
+                .ReturnsAsync(new ApplicationUser { Email = "test@test.dk" });
+
+            var usersRepository = new UsersRepository(mockUserManager.Object);
+
+            Thread.CurrentPrincipal = new TestPrincipal(new Claim("sub", "test@test.dk"));
+            var options = new DbContextOptionsBuilder<StreetPatchDbContext>()
+                .UseInMemoryDatabase(databaseName: "testdb")
+                .Options;
+
+            EntityEntry<Report> entry;
             await using (var tempContext = new StreetPatchDbContext(options))
             {
                 entry = await tempContext.Reports.AddAsync(new Report { Creator = await mockUserManager.Object.FindByEmailAsync("") });
@@ -72,60 +114,15 @@ namespace StreetPatch.Tests.Controllers
             var report = entry.Entity;
 
             // Act
-            var result = await controller.DeleteAsync(report.Id);
+            var result = await controller.GetByIdAsync(report.Id);
 
             // Assert
             Assert.NotNull(result);
-            Assert.IsType<NoContentResult>(result);
+            Assert.IsType<OkObjectResult>(result);
         }
 
         [Fact]
-        public async void Delete_ReturnsBadRequest_WhenGUIDIsNotProvided()
-        {
-            // Arrange 
-            var mockUserManager = new Mock<MockUserManager>();
-            mockUserManager.Setup(x => x.FindByEmailAsync(It.IsAny<string>()))
-                .ReturnsAsync(new ApplicationUser { Email = "test@test.dk" });
-
-            var usersRepository = new UsersRepository(mockUserManager.Object);
-
-            Thread.CurrentPrincipal = new TestPrincipal(new Claim("sub", "test@test.dk"));
-            var options = new DbContextOptionsBuilder<StreetPatchDbContext>()
-                .UseInMemoryDatabase(databaseName: "testdb")
-                .Options;
-
-            var context = new StreetPatchDbContext(options);
-
-            var reportsRepository = new ReportRepository(context);
-
-            var user = new ClaimsPrincipal(new ClaimsIdentity(new Claim[] {
-                new(ClaimTypes.Name, "")
-            }, "TestAuthentication"));
-
-            var mapperConfig = new MapperConfiguration(cfg => cfg.AddProfile<ReportMapping>());
-
-            var mapper = mapperConfig.CreateMapper();
-            var controller = new ReportsController(reportsRepository, usersRepository,
-                mapper)
-            {
-                ControllerContext =
-                {
-                    HttpContext = new DefaultHttpContext { User = user }
-                }
-            };
-
-            controller.ModelState.AddModelError("guid", "Required");
-
-            // Act
-            var result = await controller.DeleteAsync(Guid.Empty);
-
-            // Assert
-            Assert.NotNull(result);
-            Assert.IsType<BadRequestObjectResult>(result);
-        }
-
-        [Fact]
-        public async void Delete_ReturnsNotFound_WhenEntryCannotBeFound()
+        public async void FetchById_ReturnsNotFound_WhenInvalidGUIDIsProvided()
         {
             // Arrange 
 
@@ -140,13 +137,7 @@ namespace StreetPatch.Tests.Controllers
                 .UseInMemoryDatabase(databaseName: "testdb")
                 .Options;
 
-            var mockSet = new Mock<DbSet<Report>>();
-
-            var mockContext = new Mock<StreetPatchDbContext>();
-
-            EntityEntry<Report> entry = null;
-
-            mockContext.Setup(m => m.Reports).Returns(mockSet.Object);
+            EntityEntry<Report> entry;
             await using (var tempContext = new StreetPatchDbContext(options))
             {
                 entry = await tempContext.Reports.AddAsync(new Report { Creator = await mockUserManager.Object.FindByEmailAsync("") });
@@ -173,8 +164,10 @@ namespace StreetPatch.Tests.Controllers
                 }
             };
 
+            var report = entry.Entity;
+
             // Act
-            var result = await controller.DeleteAsync(Guid.Empty);
+            var result = await controller.GetByIdAsync(Guid.Empty);
 
             // Assert
             Assert.NotNull(result);
