@@ -42,6 +42,13 @@ namespace StreetPatch.API
                     .UseLazyLoadingProxies()
                     .UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
+            services.AddCors(o => o.AddPolicy("MyPolicy", builder =>
+            {
+                builder.WithOrigins("http://example.com")
+                       .AllowAnyMethod()
+                       .AllowAnyHeader();
+            }));
+
             services.AddIdentity<ApplicationUser, IdentityRole<Guid>>(
                     identity =>
                     {
@@ -150,6 +157,8 @@ namespace StreetPatch.API
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            app.UseCors("MyPolicy");
 
             app.UseAuthorization();
 
