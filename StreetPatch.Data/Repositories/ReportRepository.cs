@@ -12,5 +12,18 @@ namespace StreetPatch.Data.Repositories
         public ReportRepository(StreetPatchDbContext context) : base(context)
         {
         }
+
+        public async Task<Report> DeleteOrArchiveAsync(Guid guid, bool isSoft)
+        {
+            if (!isSoft)
+            {
+                return await base.DeleteAsync(guid);
+            }
+
+            var report = await base.GetAsync(guid);
+            report.DeletedAt = DateTime.Now;
+            return await base.UpdateAsync(report);
+
+        }
     }
 }

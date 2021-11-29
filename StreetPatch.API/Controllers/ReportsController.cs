@@ -91,9 +91,10 @@ namespace StreetPatch.API.Controllers
         }
 
         /// <summary>
-        /// Deletes a report, based on a GUID.
+        /// Deletes or archives a report, based on a GUID.
         /// </summary>
         /// <param name="guid">The GUID of a report which will be deleted</param>
+        /// <param name="isSoft">Indicates if the report should be deleted or archived. Default behaviour is deletion.</param>
         /// <returns>A code 2XX on success, and 4XX on errors.</returns>
         /// <response code="204">Returned upon successful deletion.</response>
         /// <response code="400">Returned when there is a problem with the input fields (GUID missing).</response>
@@ -102,14 +103,14 @@ namespace StreetPatch.API.Controllers
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> DeleteAsync([Required] Guid guid)
+        public async Task<IActionResult> DeleteAsync([Required] Guid guid, bool isSoft = false)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var result = await this.reportRepository.DeleteAsync(guid);
+            var result = await this.reportRepository.DeleteOrArchiveAsync(guid, isSoft);
 
             return result != default ? NoContent() : NotFound($"Could not find a report with id: {guid}");
         }
