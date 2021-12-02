@@ -134,11 +134,14 @@ namespace StreetPatch.API
             {
                 mc.AddProfile(new MappingUser());
                 mc.AddProfile(new ReportMapping());
+                mc.AddProfile(new CommentMapping());
             });
 
             services.AddTransient<UsersRepository>();
             services.AddTransient<ReportRepository>();
+            services.AddTransient<CommentRepository>();
             services.AddTransient<ITokenService, TokenService>();
+
             var mapper = mapperConfig.CreateMapper();
             services.AddSingleton(mapper);
 
