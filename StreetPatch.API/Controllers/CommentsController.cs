@@ -50,13 +50,17 @@ namespace StreetPatch.API.Controllers
             {
                 return BadRequest(ModelState);
             }
+            
+            var report = await this.reportRepository.GetAsync(Guid.Parse(createCommentDto.ReportId));
 
-            if (await this.reportRepository.GetAsync(Guid.Parse(createCommentDto.ReportId)) == default)
+            if (report == default)
             {
                 return NotFound($"Could not find report with id: {createCommentDto.ReportId}.");
             }
 
             var comment = mapper.Map<CreateCommentDto, Comment>(createCommentDto);
+
+            comment.Report = report;
 
             var userEmail = this.usersRepository.GetUsernameFromToken(User.Claims);
             comment.Author = await this.usersRepository.GetByUsernameAsync(userEmail);
