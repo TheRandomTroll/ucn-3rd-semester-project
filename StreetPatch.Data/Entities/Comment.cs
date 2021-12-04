@@ -14,5 +14,6 @@ namespace StreetPatch.Data.Entities
         public virtual Guid AuthorId { get; set; }
         public virtual ApplicationUser Author { get; set; }
         public virtual List<ApplicationUser> LikedBy { get; set; }
+        public DateTime? DeletedAt { get; set; }
     }
 }

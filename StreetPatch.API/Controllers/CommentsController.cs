@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
@@ -50,7 +51,7 @@ namespace StreetPatch.API.Controllers
             {
                 return BadRequest(ModelState);
             }
-            
+
             var report = await this.reportRepository.GetAsync(Guid.Parse(createCommentDto.ReportId));
 
             if (report == default)
@@ -69,6 +70,33 @@ namespace StreetPatch.API.Controllers
             var result = await this.commentRepository.AddAsync(comment);
 
             return result == default ? StatusCode(500, "Could not create comment.") : Created("Create", new { Id = result.Id, Content = result.Content });
+        }
+
+        /// <summary>
+        /// Deletes or archives a comment, based on a GUID.
+        /// </summary>
+        /// <param name="guid">The GUID of a comment which will be deleted</param>
+        /// <param name="isSoft">Indicates if comment should be deleted or archived. Default behaviour is deletion.</param>
+        /// <returns>A code 2XX on success, and 4XX on errors.</returns>
+        /// <response code="204">Returned upon successful deletion.</response>
+        /// <response code="400">Returned when there is a problem with the input fields (GUID missing).</response>
+        /// <response code="401">Returned when no JWT authentication token is provided.</response>
+        /// <response code="404">Returned when there is no comment with the provided ID.</response>
+        [HttpDelete]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> DeleteAsync([Required] Guid guid, bool isSoft = false)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var result = await this.commentRepository.DeleteOrArchiveAsync(guid, isSoft);
+
+            return result != default ? NoContent() : NotFound($"Could not find a comment with id: {guid}");
         }
     }
 }
