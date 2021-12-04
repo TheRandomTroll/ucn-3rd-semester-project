@@ -10,6 +10,9 @@ namespace StreetPatch.Data.Entities
 
         public Guid ReportId { get; set; }
         public virtual Report Report { get; set; }
+
+        public virtual Guid AuthorId { get; set; }
+        public virtual ApplicationUser Author { get; set; }
         public virtual List<ApplicationUser> LikedBy { get; set; }
     }
 }

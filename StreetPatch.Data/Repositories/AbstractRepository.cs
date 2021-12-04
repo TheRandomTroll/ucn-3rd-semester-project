@@ -21,6 +21,11 @@ namespace StreetPatch.Data.Repositories
         }
         public async Task<TEntity> AddAsync(TEntity entity)
         {
+            if(entity.Id == default)
+            {
+                entity.Id = Guid.NewGuid();
+            }
+
             context.Set<TEntity>().Add(entity);
             var rows = await context.SaveChangesAsync();
             return rows > 0 ? entity : default;
