@@ -7,9 +7,12 @@ using System.Threading.Tasks;
 
 namespace StreetPatch.Data.Entities.DTO
 {
-    class EditCommentDto
+    public class UpdateCommentDto
     {
         [Required]
         public string Content { get; set; }
+        
+        [Required]
+        public Guid Id { get; set; }
     }
 }

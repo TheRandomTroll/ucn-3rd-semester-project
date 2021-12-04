@@ -13,6 +13,12 @@ namespace StreetPatch.Data.Mapping
     {
         public CommentMapping()
         {
+            CreateMap<UpdateCommentDto, Comment>()
+                .ForMember(x => x.Id,
+                    x => x.MapFrom(y => y.Id))
+                .ForMember(x => x.Content,
+                    x => x.MapFrom(y => y.Content));
+
             CreateMap<CreateCommentDto, Comment>()
                 .ForMember(x => x.ReportId, x => x.Ignore());
         }

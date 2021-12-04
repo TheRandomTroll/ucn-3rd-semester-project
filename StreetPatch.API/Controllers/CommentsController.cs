@@ -73,6 +73,39 @@ namespace StreetPatch.API.Controllers
         }
 
         /// <summary>
+        /// Updates a report, based on its id and the new information
+        /// </summary>
+        /// <param name="updatecommentDto">200</param>
+        /// <returns>A code 2XX on success, and 4XX on errors.</returns>
+        /// <response code="200">Returns the newly created report.</response>
+        /// <response code="400">Returned when there is a problem with the input fields (fields missing).</response>
+        /// <response code="401">Returned when no JWT authentication token is provided.</response>
+        /// <response code="404">Returned when there is no report with the provided ID.</response>
+        [HttpPut]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> UpdateAsync([Required] UpdateCommentDto updateCommentDto)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var comment = mapper.Map<UpdateCommentDto, Comment>(updateCommentDto);
+
+            var result = await this.commentRepository.UpdateAsync(comment);
+
+            if (result == default)
+            {
+                return NotFound($"There is no entry with id {updateCommentDto.Id}");
+            }
+
+            return Ok(result);
+        }
+
+        /// <summary>
         /// Deletes or archives a comment, based on a GUID.
         /// </summary>
         /// <param name="guid">The GUID of a comment which will be deleted</param>
