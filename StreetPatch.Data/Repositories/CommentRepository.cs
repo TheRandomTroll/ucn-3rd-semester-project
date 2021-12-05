@@ -21,7 +21,6 @@ namespace StreetPatch.Data.Repositories
             }
 
             var comment = await base.GetAsync(guid);
-            comment.DeletedAt = DateTime.Now;
             return await base.UpdateAsync(comment);
 
         }

@@ -73,11 +73,11 @@ namespace StreetPatch.API.Controllers
         }
 
         /// <summary>
-        /// Updates a report, based on its id and the new information
+        /// Updates a comment, based on its id and the new information
         /// </summary>
-        /// <param name="updatecommentDto">200</param>
+        /// <param name="updateCommentDto">200</param>
         /// <returns>A code 2XX on success, and 4XX on errors.</returns>
-        /// <response code="200">Returns the newly created report.</response>
+        /// <response code="200">Returns the newly created comment.</response>
         /// <response code="400">Returned when there is a problem with the input fields (fields missing).</response>
         /// <response code="401">Returned when no JWT authentication token is provided.</response>
         /// <response code="404">Returned when there is no report with the provided ID.</response>
@@ -93,7 +93,9 @@ namespace StreetPatch.API.Controllers
                 return BadRequest(ModelState);
             }
 
-            var comment = mapper.Map<UpdateCommentDto, Comment>(updateCommentDto);
+            var commentId = new Guid(updateCommentDto.Id);
+            var comment = await commentRepository.GetAsync(commentId);
+            comment = mapper.Map<UpdateCommentDto, Comment>(updateCommentDto, comment);
 
             var result = await this.commentRepository.UpdateAsync(comment);
 
@@ -106,10 +108,9 @@ namespace StreetPatch.API.Controllers
         }
 
         /// <summary>
-        /// Deletes or archives a comment, based on a GUID.
+        /// Deletes a comment, based on a GUID.
         /// </summary>
         /// <param name="guid">The GUID of a comment which will be deleted</param>
-        /// <param name="isSoft">Indicates if comment should be deleted or archived. Default behaviour is deletion.</param>
         /// <returns>A code 2XX on success, and 4XX on errors.</returns>
         /// <response code="204">Returned upon successful deletion.</response>
         /// <response code="400">Returned when there is a problem with the input fields (GUID missing).</response>
@@ -120,14 +121,14 @@ namespace StreetPatch.API.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> DeleteAsync([Required] Guid guid, bool isSoft = false)
+        public async Task<IActionResult> DeleteAsync([Required] Guid guid)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var result = await this.commentRepository.DeleteOrArchiveAsync(guid, isSoft);
+            var result = await this.commentRepository.DeleteAsync(guid);
 
             return result != default ? NoContent() : NotFound($"Could not find a comment with id: {guid}");
         }

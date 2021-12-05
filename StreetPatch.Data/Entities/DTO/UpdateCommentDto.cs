@@ -13,6 +13,6 @@ namespace StreetPatch.Data.Entities.DTO
         public string Content { get; set; }
         
         [Required]
-        public Guid Id { get; set; }
+        public string Id { get; set; }
     }
 }
