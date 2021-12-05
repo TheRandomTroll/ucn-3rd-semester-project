@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
@@ -50,7 +51,7 @@ namespace StreetPatch.API.Controllers
             {
                 return BadRequest(ModelState);
             }
-            
+
             var report = await this.reportRepository.GetAsync(Guid.Parse(createCommentDto.ReportId));
 
             if (report == default)
@@ -69,6 +70,67 @@ namespace StreetPatch.API.Controllers
             var result = await this.commentRepository.AddAsync(comment);
 
             return result == default ? StatusCode(500, "Could not create comment.") : Created("Create", new { Id = result.Id, Content = result.Content });
+        }
+
+        /// <summary>
+        /// Updates a comment, based on its id and the new information
+        /// </summary>
+        /// <param name="updateCommentDto">200</param>
+        /// <returns>A code 2XX on success, and 4XX on errors.</returns>
+        /// <response code="200">Returns the newly created comment.</response>
+        /// <response code="400">Returned when there is a problem with the input fields (fields missing).</response>
+        /// <response code="401">Returned when no JWT authentication token is provided.</response>
+        /// <response code="404">Returned when there is no report with the provided ID.</response>
+        [HttpPut]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> UpdateAsync([Required] UpdateCommentDto updateCommentDto)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var commentId = new Guid(updateCommentDto.Id);
+            var comment = await commentRepository.GetAsync(commentId);
+            comment = mapper.Map<UpdateCommentDto, Comment>(updateCommentDto, comment);
+
+            var result = await this.commentRepository.UpdateAsync(comment);
+
+            if (result == default)
+            {
+                return NotFound($"There is no entry with id {updateCommentDto.Id}");
+            }
+
+            return Ok(result);
+        }
+
+        /// <summary>
+        /// Deletes a comment, based on a GUID.
+        /// </summary>
+        /// <param name="guid">The GUID of a comment which will be deleted</param>
+        /// <returns>A code 2XX on success, and 4XX on errors.</returns>
+        /// <response code="204">Returned upon successful deletion.</response>
+        /// <response code="400">Returned when there is a problem with the input fields (GUID missing).</response>
+        /// <response code="401">Returned when no JWT authentication token is provided.</response>
+        /// <response code="404">Returned when there is no comment with the provided ID.</response>
+        [HttpDelete]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> DeleteAsync([Required] Guid guid)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var result = await this.commentRepository.DeleteAsync(guid);
+
+            return result != default ? NoContent() : NotFound($"Could not find a comment with id: {guid}");
         }
     }
 }

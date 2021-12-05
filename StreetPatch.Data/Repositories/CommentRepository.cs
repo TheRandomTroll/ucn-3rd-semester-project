@@ -12,5 +12,17 @@ namespace StreetPatch.Data.Repositories
         public CommentRepository(StreetPatchDbContext context) : base(context)
         {
         }
+
+        public async Task<Comment> DeleteOrArchiveAsync(Guid guid, bool isSoft)
+        {
+            if (!isSoft)
+            {
+                return await base.DeleteAsync(guid);
+            }
+
+            var comment = await base.GetAsync(guid);
+            return await base.UpdateAsync(comment);
+
+        }
     }
 }

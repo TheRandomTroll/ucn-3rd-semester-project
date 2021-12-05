@@ -59,6 +59,7 @@ namespace StreetPatch.Data.Repositories
         {
             try
             {
+                context.Update(entity);
                 entity.UpdatedOn = DateTime.Now;
                 context.Entry(entity).State = EntityState.Modified;
                 var rows = await context.SaveChangesAsync();

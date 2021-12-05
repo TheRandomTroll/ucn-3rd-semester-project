@@ -117,7 +117,9 @@ namespace StreetPatch.API.Controllers
                 return BadRequest(ModelState);
             }
 
-            var report = mapper.Map<UpdateReportDto, Report>(updateReportDto);
+            var reportId = new Guid(updateReportDto.Id);
+            var report = await reportRepository.GetAsync(reportId);
+            report = mapper.Map<UpdateReportDto, Report>(updateReportDto, report);
 
             var result = await this.reportRepository.UpdateAsync(report);
 
