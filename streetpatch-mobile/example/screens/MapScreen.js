@@ -5,6 +5,11 @@ import {
 import MapView, { Marker } from 'react-native-maps'
 import 'react-native-gesture-handler';
 import GetLocation from 'react-native-get-location'
+import map_marker from "../assets/map_marker.png";
+import { StackNavigator } from 'react-navigation';
+import { NavigationContainer } from '@react-navigation/native';
+
+
 
 const styles = StyleSheet.create({
   container: {
@@ -24,7 +29,8 @@ const initialRegion = {
   longitude: -122.084,
   latitudeDelta: 0.0922,
   longitudeDelta: 0.0421,
-}
+} 
+
 
 export default class MapScreen extends Component {
   constructor(props) {
@@ -100,6 +106,7 @@ export default class MapScreen extends Component {
     console.log('onRegionChangeComplete', region);
   };
 
+
   render() {
     return (
       <MapView
@@ -114,14 +121,19 @@ export default class MapScreen extends Component {
         style={StyleSheet.absoluteFill}
         textStyle={{ color: '#bc8b00' }}
         containerStyle={{ backgroundColor: 'white', borderColor: '#BC8B00' }}
+        onPress={this.onMapPress}
       >
 
         <Marker
-          coordinate={{ latitude: 33.7872131, longitude: -84.381931 }}
-          title='Flatiron School Atlanta'
-          description='This is where the magic happens!'
+          coordinate={{ latitude: 37.425725,
+            longitude: -122.084 }}
+          image={require('../assets/map_marker2.png')}
+          title="Test Title"
+          description="This is a test"
+          onPress={() => this.props.navigation.navigate('Comments')}  
         >
         </Marker >
+        
       </MapView>
     );
   }
