@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using StreetPatch.Data;
 
 namespace StreetPatch.Data.Migrations
 {
     [DbContext(typeof(StreetPatchDbContext))]
-    partial class StreetPatchDbContextModelSnapshot : ModelSnapshot
+    [Migration("20211207074742_AddedRowVersionToEntities")]
+    partial class AddedRowVersionToEntities
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -236,9 +238,6 @@ namespace StreetPatch.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("AuthorId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<string>("Content")
                         .HasColumnType("nvarchar(max)");
 
@@ -260,8 +259,6 @@ namespace StreetPatch.Data.Migrations
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("AuthorId");
 
                     b.HasIndex("ReportId");
 
@@ -379,19 +376,11 @@ namespace StreetPatch.Data.Migrations
 
             modelBuilder.Entity("StreetPatch.Data.Entities.Comment", b =>
                 {
-                    b.HasOne("StreetPatch.Data.Entities.ApplicationUser", "Author")
-                        .WithMany()
-                        .HasForeignKey("AuthorId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("StreetPatch.Data.Entities.Report", "Report")
                         .WithMany("Comments")
                         .HasForeignKey("ReportId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Author");
 
                     b.Navigation("Report");
                 });

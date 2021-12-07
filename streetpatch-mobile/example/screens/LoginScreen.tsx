@@ -23,7 +23,7 @@ const LoginScreen = () => {
       return;
     }
 
-    axios.post('https://287c-130-226-214-218.ngrok.io/api/auth/login', { email: email.value, password: password.value })
+    axios.post('https://b624-2a02-aa7-4001-469e-2177-6cfe-e777-a53c.ngrok.io/api/auth/login', { email: email.value, password: password.value })
       .then(async (resp) => {
         await AsyncStorage.setItem('@jwt_token', resp.data);
         console.log(await AsyncStorage.getItem('@jwt_token'));
