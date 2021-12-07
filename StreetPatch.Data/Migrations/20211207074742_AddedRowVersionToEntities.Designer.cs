@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using StreetPatch.Data;
 
 namespace StreetPatch.Data.Migrations
 {
     [DbContext(typeof(StreetPatchDbContext))]
-    partial class StreetPatchDbContextModelSnapshot : ModelSnapshot
+    [Migration("20211207074742_AddedRowVersionToEntities")]
+    partial class AddedRowVersionToEntities
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

@@ -15,5 +15,8 @@ namespace StreetPatch.Data.Entities.Base
         public DateTime? UpdatedOn { get; set; }
 
         public DateTime LastAccessed { get; set; }
+
+        [Timestamp]
+        public byte[] RowVersion { get; set; }
     }
 }
