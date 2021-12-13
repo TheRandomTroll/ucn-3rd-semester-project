@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
@@ -6,6 +7,7 @@ using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using StreetPatch.API.Services;
 using StreetPatch.Data.Entities;
 using StreetPatch.Data.Entities.DTO;
 using StreetPatch.Data.Entities.Enums;
@@ -28,7 +30,6 @@ namespace StreetPatch.API.Controllers
             this.usersRepository = usersRepository;
             this.mapper = mapper;
         }
-
         /// <summary>
         /// Gets all reports from the database.
         /// </summary>
@@ -72,11 +73,13 @@ namespace StreetPatch.API.Controllers
         /// <response code="201">Returns the Id of the newly created report.</response>
         /// <response code="400">Returned when there is a problem with the input fields (fields missing).</response>
         /// <response code="401">Returned when no JWT authentication token is provided.</response>
+        /// <response code="409">Returned when there are similar reports to the one submitted.</response>
         /// <response code="500">Returned when there is a problem with persisting the entry in the database.</response>
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status409Conflict)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> CreateAsync([FromBody] CreateReportDto createReportDto)
         {
@@ -85,11 +88,19 @@ namespace StreetPatch.API.Controllers
                 return BadRequest(ModelState);
             }
             var report = mapper.Map<CreateReportDto, Report>(createReportDto);
+
             report.Status = ReportStatus.New;
 
             var userEmail = this.usersRepository.GetUsernameFromToken(User.Claims);
             report.Creator = await this.usersRepository.GetByUsernameAsync(userEmail);
 
+            var reports = await this.reportRepository.GetAllAsync();
+            var similarReports = reports.Where(r => ReportSimilarityService.CalculateSimilarity(report, r) > 0.8).ToList();
+
+            if (similarReports.Count > 0)
+            {
+                return Conflict("Reports which are too similar to this one have been detected: " + string.Join(", ", similarReports.Select(x => x.Id)));
+            }
             var result = await this.reportRepository.AddAsync(report);
 
             return result == default ? StatusCode(500, "Could not create report.") : Created("Create", new { Id = result.Id });
