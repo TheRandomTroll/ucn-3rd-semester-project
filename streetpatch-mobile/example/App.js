@@ -3,6 +3,7 @@ import { Button, View } from 'react-native';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { NavigationContainer } from '@react-navigation/native';
 import { LoginScreen, MapScreen } from './screens'
+import RegisterScreen from './screens/RegisterScreen';
 
 function StreetPatchScreen ({ navigation }) {
   return (
@@ -38,6 +39,7 @@ export default function App() {
         <Drawer.Screen name="Login" component={LoginScreen} />
         <Drawer.Screen name="Comments" component={CommentsScreen} />
         <Drawer.Screen name="Contact" component={ContactScreen} />
+        <Drawer.Screen name="RegisterScreen" component={RegisterScreen}/>
       </Drawer.Navigator>
     </NavigationContainer>
   );
