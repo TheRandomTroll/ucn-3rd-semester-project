@@ -71,9 +71,9 @@ namespace StreetPatch.Data.Repositories
                 {
                     if (item.Entity is TEntity)
                     {
-                        var dbValues = await item.GetDatabaseValuesAsync();
+                        var originalValues = item.OriginalValues;
                         // Refresh the original values to bypass next concurrency check
-                        item.OriginalValues.SetValues(dbValues);
+                        item.OriginalValues.SetValues(originalValues);
                     }
                     else {
                         throw new NotSupportedException("Don’t know handling of concurrency conflict " +
