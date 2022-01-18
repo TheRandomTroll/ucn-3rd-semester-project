@@ -65,8 +65,21 @@ namespace StreetPatch.Data.Repositories
                 var rows = await context.SaveChangesAsync();
                 return rows > 0 ? entity : default;
             }
-            catch (Exception)
+            catch (DbUpdateConcurrencyException ex)
             {
+                foreach (var item in ex.Entries)
+                {
+                    if (item.Entity is TEntity)
+                    {
+                        var dbValues = await item.GetDatabaseValuesAsync();
+                        // Refresh the original values to bypass next concurrency check
+                        item.OriginalValues.SetValues(dbValues);
+                    }
+                    else {
+                        throw new NotSupportedException("Don’t know handling of concurrency conflict " +
+                                                        item.Metadata.Name);
+                    }
+                }
                 return default;
             }
         }

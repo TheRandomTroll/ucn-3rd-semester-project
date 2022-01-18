@@ -24,7 +24,7 @@ namespace StreetPatch.API.Services
             {
                 distance = 100;
             }
-
+            
             similarity += 0.5 / Math.Log(distance, 100);
 
             var titleAndDescriptionSimilarity = GetTitleAndDescriptionSimilarity(report1, report2);
@@ -54,6 +54,30 @@ namespace StreetPatch.API.Services
 
         private static double[] GetTitleAndDescriptionSimilarity(Report report1, Report report2)
         {
+            var pythonLocation = GetPythonPath();
+
+            var pythonScriptPath = FindPathToDir("calculate_similarity.py");
+
+            Console.WriteLine(pythonLocation);
+            var start = new ProcessStartInfo
+            {
+                FileName = pythonLocation,
+                Arguments = $"{pythonScriptPath} \"${report1.Title}\" \"${report2.Title}\" \"${report1.Description}\" \"${report2.Description}\" ",
+                UseShellExecute = false,
+                RedirectStandardOutput = true,
+                Verb = "runas"
+            };
+            using var process = Process.Start(start);
+            using var reader = process.StandardOutput;
+            var output = reader.ReadToEnd();
+            return output
+                .Split(Environment.NewLine, StringSplitOptions.RemoveEmptyEntries)
+                .Select(double.Parse)
+                .ToArray(); // This returns the title similarity, then the description similarity
+        }
+
+        private static string GetPythonPath()
+        {
             var entries = Environment.GetEnvironmentVariable("path")?.Split(';');
             string pythonLocation = null;
 
@@ -63,7 +87,7 @@ namespace StreetPatch.API.Services
                 var breadcrumbs = entry.Split('\\');
                 foreach (var breadcrumb in breadcrumbs)
                 {
-                    if (breadcrumb.ToLower().Contains("python"))
+                    if (breadcrumb.ToLower().Contains("python3"))
                     {
                         pythonLocation += breadcrumb + '\\';
                         break;
@@ -75,23 +99,7 @@ namespace StreetPatch.API.Services
 
             pythonLocation += "\\python.exe";
 
-            var pythonScriptPath = FindPathToDir("calculate_similarity.py");
-
-            Console.WriteLine(pythonLocation);
-            var start = new ProcessStartInfo
-            {
-                FileName = pythonLocation,
-                Arguments = $"{pythonScriptPath} \"${report1.Title}\" \"${report2.Title}\" \"${report2.Description}\" \"${report2.Description}\" ",
-                UseShellExecute = false,
-                RedirectStandardOutput = true,
-                Verb = "runas"
-            };
-            using var process = Process.Start(start);
-            using var reader = process.StandardOutput;
-            return reader.ReadToEnd()
-                .Split(Environment.NewLine, StringSplitOptions.RemoveEmptyEntries)
-                .Select(double.Parse)
-                .ToArray(); // This returns the title similarity, then the description similarity
+            return pythonLocation;
         }
 
         private static string FindPathToDir(string localPath)
