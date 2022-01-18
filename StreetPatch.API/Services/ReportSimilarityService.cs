@@ -29,7 +29,10 @@ namespace StreetPatch.API.Services
 
             var titleAndDescriptionSimilarity = GetTitleAndDescriptionSimilarity(report1, report2);
 
-            similarity += titleAndDescriptionSimilarity[0] * 0.15 + titleAndDescriptionSimilarity[1] * 0.05;
+            if(titleAndDescriptionSimilarity.Length > 0)
+            {
+                similarity += titleAndDescriptionSimilarity[0] * 0.15 + titleAndDescriptionSimilarity[1] * 0.05;
+            }
 
             return Math.Round(similarity, 2);
         }
@@ -65,10 +68,14 @@ namespace StreetPatch.API.Services
                 Arguments = $"{pythonScriptPath} \"${report1.Title}\" \"${report2.Title}\" \"${report1.Description}\" \"${report2.Description}\" ",
                 UseShellExecute = false,
                 RedirectStandardOutput = true,
+                RedirectStandardError = true,
                 Verb = "runas"
             };
             using var process = Process.Start(start);
             using var reader = process.StandardOutput;
+            using var errorReader = process.StandardError;
+
+            Console.WriteLine(errorReader.ReadToEnd());
             var output = reader.ReadToEnd();
             return output
                 .Split(Environment.NewLine, StringSplitOptions.RemoveEmptyEntries)
